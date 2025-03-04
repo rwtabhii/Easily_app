@@ -1,14 +1,16 @@
-<%if(errorMessage){ %>
-    <h1 class = "white-color text-center"><%=errorMessage%></h1>
+<%if(Message){ %>
+    <h1 class = "white-color text-center"><%=Message%></h1>
  <% }else{ %>  
 <div class="container my-2 ">
+  
     
 
 
     <% job.forEach(j=>{ %>
+      <!-- <p>Job ID: <%= j.id %></p> -->
     <div class="card mb-3">
       <a href="https://www.codingninjas.com/"><img src="https://files.codingninjas.com/web-banner-28759.png" class="card-img-top" alt="poster"></a>
-  
+      
       <div class="card-body">
         <h1 class="text-center text-success">
           <span class="text-danger"> <%=j.jobtype%> </span> oppertunity
@@ -18,7 +20,11 @@
         
   
         <div class="container d-flex flex-column align-items-centre justify-content-start my-3">
-          <h5 class="my-1"><%=j.companyname%></h5>
+          <div>
+          <h5 class="my-1" style="display:inline;"><%=j.companyname%></h5>
+            <a class="ms-2" href="/updatejob/<%= j.id%>"><i class="fa-regular fa-pen-to-square"></i></a>
+            <a class = "ms-2" href="/deletejob/<%= j.id%>"><i class="fa-solid fa-trash"></i></a>
+          </div>
           <div>
             <span>Tech</span>
             <span class="text-success"><%=j.jobtype%></span>
@@ -41,15 +47,15 @@
                 <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"></path>
               </svg>
               Number of openings <%=j.numberofopening%></span>
-            <a style="text-decoration: none; color: rgb(215, 20, 85)" href="applicants/1">
+            <a style="text-decoration: none; color: rgb(215, 20, 85)" href="/job/applicants/<%= j.id %>">
               <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                   <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"></path>
                 </svg>
-                Applicants <%=j.applicant%></span>
+                Applicants <%=j.applicants.length%></span>
             </a>
           </div>
   
-          <div class="container">
+          <div class="container"> 
             <div class="skills p-1">
            <% j.skills.forEach(skill=>{ %>
               
@@ -70,7 +76,7 @@
         <!-- job posted -->
       </div>
     </div> 
-  <%   })  %>
+
  <!-- modal  -->
  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
@@ -87,7 +93,7 @@
             <h4 style="color: #181642" class="text-center mb-3">
               apply in less than 1 minute
             </h4>
-            <form action="/apply/2" method="post" enctype="multipart/form-data">
+            <form action="/apply/<%= j.id %>" method="post" enctype="multipart/form-data">
               <div class="mb-3">
                 <div class="input-group">
                   <span class="input-group-text">Name</span>
@@ -111,10 +117,10 @@
   
               <div class="input-group mb-3">
                 <label class="input-group-text" for="inputGroupFile01">Resume</label>
-                <input name="resume" type="file" class="form-control" id="inputGroupFile01" required="">
+                <input name="image" type="file" class="form-control" id="inputGroupFile01" required="">
               </div>
   
-              <button class="w-100 mb-3 mt-2 btn btn-md btn-success" type="submit">
+              <button class="w-100 mb-3 mt-2 btn btn-md btn-success" type="submit" >
                 Submit
               </button>
             </form>
@@ -131,4 +137,5 @@
     </div>
   </div>
    </div>
+   <%   })  %>
    <% }%>
