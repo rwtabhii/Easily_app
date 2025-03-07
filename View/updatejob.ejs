@@ -1,7 +1,7 @@
 <div class="container p-3 mx-auto w-50 form-box my-5 rounded-md">
     <% job.forEach(j=>{ %>
     <h2 style="color: #181642" class="text-center mb-3"> Update the Job</h2>
-    <form action="/newjob" method="post">   
+    <form action="/updatejob/<%=j.id%>" method="post">   
       <div class="input-group mb-3">
         <select required="" name="jobtype" class="form-select" aria-label="Default select example">
           <option selected="" disabled="">select job category</option>
@@ -38,26 +38,26 @@
       </div>
   
       <div class="input-group mb-3">
-        <input required="" name="salary" type="text" class="form-control" placeholder="enter salary" aria-label="Username">
+        <input required="" name="salary" type="text" class="form-control" value="<%=j.salary%>" placeholder="enter salary" aria-label="Username">
         <span class="input-group-text">Total Positions</span>
         <input required="" name="numberofopening" type="number" value="<%=j.numberofopening%>" class="form-control" placeholder="total no of openings" aria-label="Server">
       </div>
-     <% j.skills.forEach(skill=>{ %>
+     
       <div class="input-group mb-3">
         <select required multiple name="skills" class="form-select" aria-label="Default select example">
           <option selected="" disabled="">select skills required for this job</option>
-          <option value="React" <%=skill === "React" ? "selected": "" %>>React</option>
-          <option value="NodeJs"<%=skill === "NodeJs" ? "selected": "" %>>NodeJs</option>
-          <option value="Angular" <%=skill  === "Angular" ? "selected": "" %>>Angular</option>
-          <option value="MongoDB" <%=skill === "MongoDB" ? "selected": "" %>>MongoDB</option>
-          <option value="SQL" <%=skill === "SQL" ? "selected": "" %>>SQL</option>
-          <option value="Express" <%=skill === "Express" ? "selected": "" %>>Express</option>
-          <option value="Java" <%=skill === "Java" ? "selected": "" %>>Java</option>
-          <option value="SpringBoot" <%=skill === "SpringB  ot" ? "selected": "" %>>SpringBoot</option>
-          <option value="C++" <%=skill === "C++" ? "selected": "" %>>C++</option>
-          <option value="Data Structures & Algo" <%=skill === "Data Structures & Algo" ? "selected": "" %>>Data Structures &amp; Algo</option>
+          <option value="React" >React</option>
+          <option value="NodeJs">NodeJs</option>
+          <option value="Angular" >Angular</option>
+          <option value="MongoDB" >MongoDB</option>
+          <option value="SQL" >SQL</option>
+          <option value="Express" >Express</option>
+          <option value="Java" >Java</option>
+          <option value="SpringBoot" >SpringBoot</option>
+          <option value="C++" >C++</option>
+          <option value="Data Structures & Algo" >Data Structures &amp; Algo</option>
         </select>
-    <% }) %>
+   
         <span class="input-group-text">Apply By</span>
         <input name="applyby" type="date" class="form-control" value="<%=j.applyby%>" placeholder="total no of openings" aria-label="Server">
       </div>
