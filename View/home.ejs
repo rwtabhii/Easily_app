@@ -7,9 +7,13 @@
             <h1 class="letter">job opportunities and internships</h1>
             <div class="actions">
                 <a href="/jobs" class="btn btn-lg lbtn"> I'm A Job Seeker </a>
-                <button data-bs-toggle="modal" data-bs-target="#register" class="btn btn-lg lbtn mx-2">
-                    I'm A Recruiter
-                </button>
+                <% if (locals.name) { %>
+                    <a href="/jobs" class="btn btn-lg lbtn mx-2">I'm A Recruiter</a>
+                <% } else { %>
+                    <button data-bs-toggle="modal" data-bs-target="#register" class="btn btn-lg lbtn mx-2">
+                        I'm A Recruiter
+                    </button>
+                <% } %>
             </div>
     </div>
     <div class="right">

@@ -1,8 +1,9 @@
 // import path from "path";
 export class jobsModel {
-    constructor(id, companyname, jobtype, jobdesignation, joblocation, salary, skills, applyby, numberofopening, jobposted, applicants) {
+    constructor(id, recrutierid, companyname, jobtype, jobdesignation, joblocation, salary, skills, applyby, numberofopening, jobposted, applicants) {
         this.id = id;
-        this.companyname = companyname;
+        this.recrutierid = recrutierid,
+            this.companyname = companyname;
         this.jobtype = jobtype
         this.jobdesignation = jobdesignation;
         this.joblocation = joblocation;
@@ -15,7 +16,7 @@ export class jobsModel {
     }
 
     static getJobs() {
-        console.log(jobs);
+        // console.log(jobs);
         return jobs;
     }
     static getbyId(id) {
@@ -46,6 +47,7 @@ export class jobsModel {
     static registerData(data) {
         const { name, email, companyName, password } = data
         const obj = {
+            id: recrutier.length + 1,
             name,
             email,
             companyName,
@@ -58,33 +60,61 @@ export class jobsModel {
         let findRecrutier = recrutier.find(u => u.email == email && u.password == password)
         return findRecrutier;
     }
-    static newjobData(data) {
+    static newjobData(data, id) {
         const { companyname, jobtype, jobdesignation, joblocation, salary, skills, applyby, numberofopening } = data;
-        const job = new jobsModel(jobs.length + 1, companyname, jobtype, jobdesignation, joblocation, salary,skills, applyby, numberofopening,new Date().toISOString(),[]);
+        const recrutierid = id;
+
+        const job = new jobsModel(jobs.length + 1, recrutierid, companyname, jobtype, jobdesignation, joblocation, salary, skills ? (Array.isArray(skills) ? skills : [skills]) : [], applyby, numberofopening, new Date().toISOString(), []);
         console.log(job);
-       return jobs.push(job);
+        return jobs.push(job);
     }
-    static updateJob(id){
-        return jobs.find(job => job.id == id);   
+    static updateJob(id) {
+        return jobs.find(job => job.id == id);
     }
-    static deleteJob(id){
-      const job =  jobs.find(job => job.id == id);
-      jobs.splice(job,1);
-      return jobs
-      
+    static updateData(data, id) {
+        console.log(data);
+        const index = jobs.findIndex(p => p.id == id);
+        if (index !== -1) {
+            jobs[index] = {
+                ...jobs[index], ...data,
+                skills: data.skills ? [].concat(data.skills) : jobs.skills
+            }
+            //  console.log(jobs[index]);
+            return jobs[index];
+        }
+        return null;
+    }
+    static deleteJob(id) {
+        const job = jobs.find(job => job.id == id);
+        jobs.splice(job, 1);
+        return jobs
+
 
     }
 
 
 }
 let jobs = [
-    new jobsModel(1, "Coding Ninja", "SDE", "Tech", "Pune", "7-14lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "30-Aug-2023", 0, new Date().toISOString(), []
+    new jobsModel(1, 1, "Coding Ninja", "SDE", "Tech", "Pune", "7-14lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "2023-02-20", 5, new Date().toISOString(), []
     ),
-    new jobsModel(2, "Amazon", "SDE2", "Tech", "Delhi", "17-20lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "12-Aug-2023", 0, new Date().toISOString(), []
+    new jobsModel(2, 2, "Amazon", "SDE2", "Tech", "Delhi", "17-20lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "2023-01-01", 4, new Date().toISOString(), []
     ),
-    new jobsModel(3, "Microsoft", "MERN", "Tech", "Noida", "7-20lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "30-Aug-2023", 0, new Date().toISOString(), []
+    new jobsModel(3, 2, "Microsoft", "MERN", "Tech", "Noida", "7-20lpa", ["REACT", "SQL", "Nodejs", "JS", "MongoDB", "Express", "AWS"], "2023-05-10", 6, new Date().toISOString(), []
     ),
 
 ];
 
-let recrutier = [];
+let recrutier = [{
+    id: 1,
+    name: "abhi",
+    email: "abhi123@gmail.com",
+    comapnyname: "HCL",
+    password: "123"
+},
+{
+    id: 2,
+    name: "ajay",
+    email: "ajay123@gmail.com",
+    comapnyname: "HCLTech",
+    password: "1234"
+}];

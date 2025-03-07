@@ -3,6 +3,8 @@ import ejslayouts from "express-ejs-layouts"
 import path from "path";
 import { jobController } from "./Controller/jobController.js";
 import { upload } from "./Middleware/fileUpload-middleware.js";
+import { recrutierSession } from "./Middleware/sessions.middleware.js";
+import session from "express-session";
 
 
 
@@ -13,6 +15,13 @@ const jobcontroller = new jobController();
 // setting the ejs methods
 server.set("view engine","ejs");
 server.set("views",path.join(path.resolve(),"View"));
+// express-session
+server.use(session({
+    secret: "Secretkey",
+    resave: false,
+    saveUninitialized: true,
+    cookie:{secure:false}
+}));
 
 // setting the express-ejs-layouts
 server.use(ejslayouts);
@@ -33,11 +42,14 @@ server.get("/job/applicants/:id",jobcontroller.applicantList);
 server.get("/signin",jobcontroller.siginPage);
 server.post("/register",jobcontroller.postRegister);
 server.post("/login",jobcontroller.validRecrutier);
-server.get("/postjob",jobcontroller.postJob);
-server.post("/newjob",jobcontroller.postjobData);
+server.get("/postjob",recrutierSession,jobcontroller.postJob);
+server.post("/newjob",recrutierSession,jobcontroller.postjobData);
 
-server.get("/updatejob/:id",jobcontroller.updateJob);
-server.get("/deletejob/:id",jobcontroller.deleteJob);
+server.get("/updatejob/:id",recrutierSession,jobcontroller.updateJob);
+server.post("/updatejob/:id",recrutierSession,jobcontroller.postUpdateJob);
+server.get("/deletejob/:id",recrutierSession,jobcontroller.deleteJob);
+
+server.get("/logout",jobcontroller.logout);
 
 
 server.listen(3200);

@@ -32,13 +32,22 @@
               <li class="nav-item dropdown">
                 
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Recruiter
+                <% if(locals.name){ %>
+                   <%= name %>  
+               <% }else{ %>
+                    Recruiter
+               <% } %>
                 </a>
                 
   
                 <ul class="dropdown-menu">
                   
-                  <li><a class="dropdown-item"  href="/signin">Login</a></li>
+                  <li>
+                    <% if(locals.name){  %>
+                      <a class="dropdown-item"  href="/logout">logout</a> 
+                <% }else{ %>
+                  <a class="dropdown-item"  href="/signin">login</a>
+                <% } %></li>
                   
                   <li><hr class="dropdown-divider"></li>
                   <li>
