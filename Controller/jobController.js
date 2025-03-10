@@ -152,6 +152,18 @@ export class jobController {
          return res.render("errorpage", { message: "you have to be recrutier first" })
       }
    }
+   searchjob(req,res){
+      const {jobtype} = req.body;
+      // console.log(req.body)
+      // console.log(jobtype);
+      const jobs = jobsModel.searchJob(jobtype);
+      if(jobs){
+      return res.render("jobs",{jobs:jobs});
+      }
+      else{
+         return res.render("errorpage",{message:"jobs not found"});
+      }
+   }
 
    logout(req, res) {
       req.session.destroy(err => {

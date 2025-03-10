@@ -92,6 +92,13 @@ export class jobsModel {
 
     }
 
+    static searchJob(jobtype){
+        const jobsFound =jobs.filter(j=>{
+          return  j.jobtype.toLowerCase() === jobtype.toLowerCase();
+        })
+        return jobsFound;
+    }
+
 
 }
 let jobs = [
