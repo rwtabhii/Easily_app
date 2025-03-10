@@ -4,6 +4,8 @@ import path from "path";
 import { jobController } from "./Controller/jobController.js";
 import { upload } from "./Middleware/fileUpload-middleware.js";
 import { recrutierSession } from "./Middleware/sessions.middleware.js";
+import { lastVisit } from "./Middleware/lastvisit.cookies.js";
+import cookieParser from "cookie-parser";
 import session from "express-session";
 
 
@@ -15,6 +17,13 @@ const jobcontroller = new jobController();
 // setting the ejs methods
 server.set("view engine","ejs");
 server.set("views",path.join(path.resolve(),"View"));
+
+
+// setting the express-ejs-layouts
+server.use(ejslayouts);
+// exposing the public folder so that any file wanna use this folder can use this directly 
+server.use(express.static("public"));
+server.use(express.urlencoded({extended:true}))
 // express-session
 server.use(session({
     secret: "Secretkey",
@@ -22,12 +31,9 @@ server.use(session({
     saveUninitialized: true,
     cookie:{secure:false}
 }));
-
-// setting the express-ejs-layouts
-server.use(ejslayouts);
-// exposing the public folder so that any file wanna use this folder can use this directly 
-server.use(express.static("public"));
-server.use(express.urlencoded({extended:true}))
+// express cookie-parser
+server.use(cookieParser());
+server.use(lastVisit);
 
 
 server.get("/",jobcontroller.landingPage);
@@ -50,7 +56,7 @@ server.post("/updatejob/:id",recrutierSession,jobcontroller.postUpdateJob);
 server.get("/deletejob/:id",recrutierSession,jobcontroller.deleteJob);
 
 server.get("/logout",jobcontroller.logout);
+server.post("/filterjob",jobcontroller.searchjob);
 
-
-server.listen(3200);
+server.listen(5200);
 console.log("Server is listeninng at 3200");
