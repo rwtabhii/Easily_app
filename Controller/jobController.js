@@ -55,7 +55,7 @@ export class jobController {
       const id = req.params.id;
       const allApplicant = jobsModel.list(id)
       if (req.session.recrutier) {
-         return res.render("applicants", { applicants: allApplicant,name:req.session.recrutier.name });
+         return res.render("applicants", { applicants: allApplicant, name: req.session.recrutier.name });
       }
       else {
          return res.render("errorpage", { message: "sorry you are not a recrutier you have to be a recrutier first" });
@@ -120,13 +120,19 @@ export class jobController {
 
    updateJob(req, res) {
       if (req.session.recrutier) {
-
+         const recrutierid = req.session.recrutier.id
          const id = req.params.id;
          const job = jobsModel.updateJob(id);
-         return res.render("updatejob", { job: [job], name: req.session.recrutier.name });
+         if (recrutierid == job.recrutierid) {
+            return res.render("updatejob", { job: [job], name: req.session.recrutier.name });
+         }
+         else {
+            // console.log("else here")
+            return res.render("error", { message: "you cannot modify another recrutier job" });
+         }
       }
       else {
-         return res.render("errorpage", { message: "you have to be recrutier first" })
+         return res.render("errorpage", { message: "you have to be recrutier first" });
       }
 
    }
@@ -152,16 +158,16 @@ export class jobController {
          return res.render("errorpage", { message: "you have to be recrutier first" })
       }
    }
-   searchjob(req,res){
-      const {jobtype} = req.body;
+   searchjob(req, res) {
+      const { jobtype } = req.body;
       // console.log(req.body)
       // console.log(jobtype);
       const jobs = jobsModel.searchJob(jobtype);
-      if(jobs){
-      return res.render("jobs",{jobs:jobs});
+      if (jobs) {
+         return res.render("jobs", { jobs: jobs });
       }
-      else{
-         return res.render("errorpage",{message:"jobs not found"});
+      else {
+         return res.render("errorpage", { message: "jobs not found" });
       }
    }
 

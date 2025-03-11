@@ -70,6 +70,7 @@ export class jobsModel {
     }
     static updateJob(id) {
         return jobs.find(job => job.id == id);
+        
     }
     static updateData(data, id) {
         console.log(data);
